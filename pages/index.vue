@@ -1,93 +1,121 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+    <v-col cols="12">
+      <v-card class="mt-12 mb-16">
+        <v-card-title>
+          The Swedish Parliament
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
         </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
+        <v-data-table
+          :headers="headers"
+          :items="persons"
+          :search="search"
+          :loading="loading"
+          :sort-by="['parti']"
+          loading-text="Loading... Please wait"
+          @click:row="goToPerson"
+        >
+          <template v-slot:top>
+            <v-select
+              v-model="partyFilterValue"
+              class="mx-4"
+              label="Filter by party"
+              :items="partyList"
+              clearable
+            ></v-select>
+          </template>
+          <template v-slot:[`item.bild_url_80`]="{ item }">
+            <v-avatar class="my-2">
+              <v-img alt="Avatar" :src="item.bild_url_80" />
+            </v-avatar>
+          </template>
+        </v-data-table>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
 export default {
-  components: {
-    Logo,
-    VuetifyLogo,
+  components: {},
+  async fetch() {
+    this.loading = true
+    this.persons = await this.$axios
+      .$get('http://data.riksdagen.se/personlista/?utformat=json')
+      .then((res) => {
+        console.log(res.personlista.person)
+        this.loading = false
+        this.partyList = res.personlista.person.map((item) => {
+          return item.parti
+        })
+        this.personId = res.personlista.person.map((item) => {
+          return item.intressent_id
+        })
+        return res.personlista.person
+      })
+  },
+  data() {
+    return {
+      loading: false,
+      search: '',
+      partyList: [],
+      partyFilterValue: null,
+      persons: [],
+      personId: null,
+    }
+  },
+  computed: {
+    headers() {
+      return [
+        {
+          text: 'Photo',
+          class: 'text-no-wrap',
+          align: 'start',
+          sortable: false,
+          value: 'bild_url_80',
+        },
+        { text: 'Lastname', class: 'text-no-wrap', value: 'efternamn' },
+        { text: 'Firstname', class: 'text-no-wrap', value: 'tilltalsnamn' },
+        {
+          text: 'Party',
+          class: 'text-no-wrap',
+          value: 'parti',
+          filter: this.partyFilter,
+        },
+        { text: 'Status', class: 'text-no-wrap', value: 'status' },
+        { text: 'Constituency', class: 'text-no-wrap', value: 'valkrets' },
+        { text: 'Year born', class: 'text-no-wrap', value: 'fodd_ar' },
+      ]
+    },
+  },
+  methods: {
+    goToPerson(id) {
+      this.$router.push(`/person/${id.sourceid}`)
+    },
+    partyFilter(value) {
+      // If this filter has no value we just skip the entire filter.
+      if (!this.partyFilterValue) {
+        return true
+      }
+      // Check if the current loop value (The party value)
+      // equals to the selected value at the <v-select>.
+      return value === this.partyFilterValue
+    },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep tbody {
+  tr {
+    cursor: pointer;
+  }
+}
+</style>
