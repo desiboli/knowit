@@ -67,7 +67,10 @@
             </v-timeline-item>
           </v-timeline>
 
-          <v-card-action class="d-flex mx-4">
+          <v-card-action
+            v-if="personuppdrag.slice(3).length > 0"
+            class="d-flex mx-4"
+          >
             <v-btn color="secondary" @click="show = !show">
               Show more
               <v-icon>{{
@@ -165,10 +168,6 @@ export default {
         console.log(res)
         this.personuppdrag = res.personlista.person.personuppdrag.uppdrag
         this.personuppgift = res.personlista.person.personuppgift.uppgift
-        // this.personuppdrag = res.personlista.person.map((item) => {
-        //   console.log(item);
-        //   return item.personuppdrag
-        // })
         return res.personlista.person
       })
   },
