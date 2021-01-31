@@ -36,9 +36,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
       <v-btn
         v-show="fab"
         v-scroll="onScroll"
@@ -48,16 +46,20 @@
         bottom
         right
         color="primary"
+        class="mb-6"
         @click="backToTop"
       >
         <v-icon>mdi-arrow-up</v-icon>
       </v-btn>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span
-        >&copy; {{ new Date().getFullYear() }} Knowit - Crafting Web Frontend,
-        made with <v-icon>mdi-heart</v-icon> by Mustafa Adam Alshammaa</span
-      >
+    <v-footer class="justify-center" :absolute="!fixed" app>
+      <span class="text-caption pa-4">
+        &copy; {{ new Date().getFullYear() }} Knowit - Crafting Web Frontend,
+        <span class="d-block d-sm-inline"
+          >made with <v-icon color="red">mdi-heart</v-icon> by Mustafa Adam
+          Alshammaa</span
+        >
+      </span>
     </v-footer>
   </v-app>
 </template>
