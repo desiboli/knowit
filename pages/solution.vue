@@ -19,7 +19,7 @@
         <p>Hello!</p>
         <p>
           First of all I want to tell you that I really enjoyed this code test
-          very much! Defenitely of the best I've done so far.
+          very much! Definitely of the best I've done so far.
         </p>
         <p>To solve it I used the following tools & techniques:</p>
         <ul>
