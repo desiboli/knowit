@@ -6,6 +6,7 @@
           :loading="loading"
           class="my-md-12 mx-auto mx-md-0"
           max-width="374"
+          elevation="24"
         >
           <v-img :alt="person.efternamn" :src="person.bild_url_max" />
         </v-card>
@@ -16,30 +17,50 @@
             {{ person.tilltalsnamn }} {{ person.efternamn }}
           </v-card-title>
           <v-card-text>
-            <v-icon>mdi-briefcase</v-icon> {{ person.parti }},
-            {{ person.status }} <br />
-            <v-icon>mdi-map-marker</v-icon> {{ person.valkrets }}
+            <v-icon color="primary darken-1">mdi-briefcase</v-icon>
+            {{ person.parti }}, {{ person.status }} <br />
+            <v-icon color="primary darken-1">mdi-map-marker</v-icon>
+            {{ person.valkrets }}
           </v-card-text>
           <v-card-text>
             <strong>Gender:</strong>
             <span v-if="person.kon === 'kvinna'">
-              <v-icon aria-label="My Account" aria-hidden="false">
+              <v-icon
+                color="primary darken-1"
+                aria-label="My Account"
+                aria-hidden="false"
+              >
                 mdi-gender-female
               </v-icon>
             </span>
             <span v-else-if="person.kon === 'man'">
-              <v-icon aria-label="My Account" aria-hidden="false">
+              <v-icon
+                color="primary darken-1"
+                aria-label="My Account"
+                aria-hidden="false"
+              >
                 mdi-gender-male
               </v-icon>
             </span>
             <span v-else> {{ person.kon }} </span> <br />
             <strong>Born:</strong> {{ person.fodd_ar }}
           </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" @click="$vuetify.goTo('#assignements')">
+          <v-card-actions class="flex-column flex-md-row">
+            <v-btn
+              color="primary"
+              class="black--text mb-4 mb-md-0"
+              :block="$vuetify.breakpoint.smAndDown"
+              @click="$vuetify.goTo('#assignements')"
+            >
               Assignements
             </v-btn>
-            <v-btn color="primary" @click="$vuetify.goTo('#information')">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              class="black--text"
+              :block="$vuetify.breakpoint.smAndDown"
+              @click="$vuetify.goTo('#information')"
+            >
               Information
             </v-btn>
           </v-card-actions>
@@ -48,10 +69,10 @@
     </v-row>
     <v-row id="assignements" justify="center" align="center">
       <v-col cols="12">
-        <v-toolbar class="mb-2" color="indigo darken-5" dark>
+        <v-toolbar class="mb-2" color="primary">
           <v-toolbar-title>Personal assignments</v-toolbar-title>
         </v-toolbar>
-        <v-card :loading="loading" class="mx-auto mb-12">
+        <v-card :loading="loading" class="mx-auto mb-12 overflow-hidden">
           <v-timeline align-top dense>
             <v-timeline-item
               v-for="(uppdrag, index) in personuppdrag.slice(0, 3)"
@@ -67,17 +88,24 @@
             </v-timeline-item>
           </v-timeline>
 
-          <v-card-action
+          <v-card-actions
             v-if="personuppdrag.slice(3).length > 0"
-            class="d-flex mx-4"
+            class="d-flex mx-0 pa-0"
           >
-            <v-btn color="secondary" @click="show = !show">
+            <v-btn
+              color="primary"
+              class="black--text"
+              depressed
+              block
+              tile
+              @click="show = !show"
+            >
               Show more
               <v-icon>{{
                 show ? 'mdi-chevron-up' : 'mdi-chevron-down'
               }}</v-icon>
             </v-btn>
-          </v-card-action>
+          </v-card-actions>
 
           <v-expand-transition>
             <div v-show="show">
@@ -104,7 +132,7 @@
       <v-col cols="12">
         <v-data-iterator :items="personuppgift" hide-default-footer>
           <template v-slot:header>
-            <v-toolbar class="mb-2" color="indigo darken-5" dark>
+            <v-toolbar class="mb-2" color="primary">
               <v-toolbar-title>Personal information</v-toolbar-title>
             </v-toolbar>
           </template>
@@ -117,7 +145,6 @@
                 cols="12"
                 sm="6"
                 md="4"
-                lg="3"
               >
                 <v-card>
                   <v-card-title
