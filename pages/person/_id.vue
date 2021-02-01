@@ -1,5 +1,9 @@
 <template>
-  <v-container class="pb-16">
+  <div v-if="$fetchState.pending">
+    <Loading>Loading politician</Loading>
+  </div>
+  <p v-else-if="$fetchState.error">An error occurred :(</p>
+  <v-container v-else class="pb-16">
     <v-row justify="center" align="center">
       <v-col cols="12" sm="6">
         <PhotoCard :alt="person.efternamn" :src="person.bild_url_max" />
@@ -72,6 +76,7 @@ import DataIterator from '~/components/DataIterator'
 import TimelineCard from '~/components/TimelineCard'
 import PhotoCard from '~/components/PhotoCard'
 import PersonCard from '~/components/PersonCard'
+import Loading from '~/components/Loading'
 
 export default {
   components: {
@@ -79,6 +84,7 @@ export default {
     TimelineCard,
     PhotoCard,
     PersonCard,
+    Loading,
   },
   async fetch() {
     this.loading = true
@@ -152,6 +158,12 @@ export default {
         return u
       })
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
   },
 }
 </script>

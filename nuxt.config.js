@@ -6,7 +6,7 @@ export default {
   target: 'static',
 
   loadingIndicator: {
-    name: 'pulse',
+    name: 'folding-cube',
     color: '#3B8070',
     background: 'white',
   },
