@@ -81,12 +81,12 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          title: 'solution',
+          to: '/solution',
         },
       ],
       right: true,
-      title: 'Knowit - Code Skillcheck',
+      title: 'Knowit - Crafting Web Frontend',
     }
   },
   mounted() {

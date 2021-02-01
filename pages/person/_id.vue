@@ -4,7 +4,7 @@
       <v-col cols="12" sm="6">
         <v-card
           :loading="loading"
-          class="my-md-12 mx-auto mx-md-0"
+          class="my-md-12 mx-auto"
           max-width="374"
           elevation="24"
         >
@@ -196,6 +196,9 @@ export default {
         this.personuppdrag = res.personlista.person.personuppdrag.uppdrag
         this.personuppgift = res.personlista.person.personuppgift.uppgift
         return res.personlista.person
+      })
+      .catch(() => {
+        this.$nuxt.error({ statusCode: 404 })
       })
   },
   data() {

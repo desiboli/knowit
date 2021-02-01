@@ -11,6 +11,7 @@
             label="Search"
             single-line
             hide-details
+            color="primary darken-1"
           ></v-text-field>
         </v-card-title>
         <v-data-table
@@ -29,6 +30,7 @@
               label="Filter by party"
               :items="partyList"
               clearable
+              color="primary darken-1"
             ></v-select>
           </template>
           <template v-slot:[`item.bild_url_80`]="{ item }">
@@ -59,6 +61,9 @@ export default {
           return item.intressent_id
         })
         return res.personlista.person
+      })
+      .catch(() => {
+        this.$nuxt.error({ statusCode: 404 })
       })
   },
   data() {
