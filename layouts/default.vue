@@ -1,9 +1,9 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
       :clipped="clipped"
+      disable-resize-watcher
       fixed
       app
     >
@@ -24,14 +24,11 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar :clipped-left="clipped" dense fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn icon @click="toggle_dark_mode">
+      <v-btn icon @click="toggleDarkMode">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
@@ -45,14 +42,18 @@
         fixed
         bottom
         right
-        color="primary"
         class="mb-6"
         @click="backToTop"
       >
         <v-icon>mdi-arrow-up</v-icon>
       </v-btn>
     </v-main>
-    <v-footer class="justify-center" :absolute="!fixed" app>
+    <v-footer
+      color="background darken-1"
+      class="justify-center"
+      :absolute="!fixed"
+      app
+    >
       <span class="text-caption pa-4">
         &copy; {{ new Date().getFullYear() }} Knowit - Crafting Web Frontend,
         <span class="d-block d-sm-inline"
@@ -84,19 +85,16 @@ export default {
           to: '/inspire',
         },
       ],
-      miniVariant: false,
       right: true,
       title: 'Knowit - Code Skillcheck',
     }
   },
   mounted() {
-    const theme = localStorage.getItem('dark_theme')
-    if (theme) {
-      if (theme === 'true') {
-        this.$vuetify.theme.dark = true
-      } else {
-        this.$vuetify.theme.dark = false
-      }
+    const darkTheme = localStorage.getItem('dark_theme')
+    if (darkTheme) {
+      darkTheme === 'true'
+        ? (this.$vuetify.theme.dark = true)
+        : (this.$vuetify.theme.dark = false)
     } else if (
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -106,7 +104,7 @@ export default {
     }
   },
   methods: {
-    toggle_dark_mode() {
+    toggleDarkMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       localStorage.setItem('dark_theme', this.$vuetify.theme.dark.toString())
     },
