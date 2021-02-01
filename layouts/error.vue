@@ -18,6 +18,7 @@
         </v-col>
         <v-col class="text-center" cols="12">
           <NuxtLink to="/"> Home page </NuxtLink>
+          <v-img alt="Avatar" src="/9.svg" />
         </v-col>
       </v-row>
     </v-container>
