@@ -188,7 +188,7 @@ export default {
     this.loading = true
     this.person = await this.$axios
       .$get(
-        `http://data.riksdagen.se/personlista/?iid=${this.id}&utformat=json`
+        `https://data.riksdagen.se/personlista/?iid=${this.id}&utformat=json`
       )
       .then((res) => {
         this.loading = false

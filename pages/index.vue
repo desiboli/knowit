@@ -50,7 +50,7 @@ export default {
   async fetch() {
     this.loading = true
     this.persons = await this.$axios
-      .$get('http://data.riksdagen.se/personlista/?utformat=json')
+      .$get('https://data.riksdagen.se/personlista/?utformat=json')
       .then((res) => {
         console.log(res.personlista.person)
         this.loading = false
