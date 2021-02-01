@@ -5,6 +5,12 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  loadingIndicator: {
+    name: 'pulse',
+    color: '#3B8070',
+    background: 'white',
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - knowit',

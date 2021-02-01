@@ -33,7 +33,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <nuxt />
+      <nuxt keep-alive />
       <v-btn
         v-show="fab"
         v-scroll="onScroll"
