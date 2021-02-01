@@ -2,8 +2,8 @@
   <v-app dark>
     <v-container class="pb-16">
       <v-row justify="center" align="center">
-        <v-col cols="12">
-          <div v-if="error.statusCode === 404" class="text-center">
+        <v-col class="text-center" cols="12">
+          <div v-if="error.statusCode === 404">
             <h1>
               {{ pageNotFound }}
             </h1>
