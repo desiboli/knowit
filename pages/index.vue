@@ -116,6 +116,11 @@ export default {
 ::v-deep tbody {
   tr {
     cursor: pointer;
+    transition: background-color 800ms ease;
+
+    &:hover {
+      background-color: var(--v-primary-darken1) !important;
+    }
   }
 }
 </style>
