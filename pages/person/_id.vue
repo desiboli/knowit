@@ -216,11 +216,26 @@ export default {
         "([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)"
       )
 
-      // Check if a part the text is including [på].
-      // If so, replace it with an @ symbol and wrap the text in an a tag with a mailto href.
-      if (typeof string === 'string' && string.includes('[på]')) {
-        const email = string.replace('[på]', '@')
-        return email.replace(regex, "<a href='mailto:$1'>$1</a>")
+      const webRegex = RegExp(
+        '(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+@]*)*(\\?[;&a-z\\d%_.~+=-@]*)?(\\#[-a-z\\d_@]*)?$',
+        'i'
+      )
+
+      if (typeof string === 'string') {
+        // Check if a part of the text is including [på].
+        // If so, replace it with an @ symbol and wrap the text in an a tag with a mailto href.
+        if (string.includes('[på]')) {
+          const email = string.replace('[på]', '@')
+          return email.replace(regex, "<a href='mailto:$1'>$1</a>")
+        }
+
+        // Check if text is a url .
+        // If so, replace it with an a tag and with the URL in href.
+        if (string.match(webRegex)) {
+          return string.replace(webRegex, (url) => {
+            return '<a href="' + url + '" target="_blank">' + url + '</a>'
+          })
+        }
       }
       return string
     },
