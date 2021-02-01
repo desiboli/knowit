@@ -5,6 +5,8 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  mode: 'universal',
+
   loadingIndicator: {
     name: 'folding-cube',
     color: '#3B8070',
