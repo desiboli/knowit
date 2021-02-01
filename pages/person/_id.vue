@@ -192,7 +192,6 @@ export default {
       )
       .then((res) => {
         this.loading = false
-        console.log(res)
         this.personuppdrag = res.personlista.person.personuppdrag.uppdrag
         this.personuppgift = res.personlista.person.personuppgift.uppgift
         return res.personlista.person

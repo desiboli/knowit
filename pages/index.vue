@@ -52,7 +52,6 @@ export default {
     this.persons = await this.$axios
       .$get('https://data.riksdagen.se/personlista/?utformat=json')
       .then((res) => {
-        console.log(res.personlista.person)
         this.loading = false
         this.partyList = res.personlista.person.map((item) => {
           return item.parti
